@@ -1,0 +1,30 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Handler</title>
+</head>
+<body>
+<script>
+    function load_img() {
+    var img_to_upload = document.getElementById("img_to_upload").dataset;
+    fetch("/upload_img",
+        {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({img: img_to_upload})
+        })
+        .then(response => response.json())
+        .then(json => console.log(json))
+
+};
+</script>
+    <h1>load image:</h1>
+    <form action = "http://localhost:5000/uploader" method = "POST" enctype = "multipart/form-data">
+        <input type="file" id="img_to_upload" name="file">
+        <input type="submit" value="upload">
+    </form>
+    <h1>show processed image:</h1>
+    <img id="picture" src="data:image/jpeg;base64,{{ img_data }}" alt="{{ out_msg }}">
+    <br> {{ out_msg }}
+</body>
+</html>

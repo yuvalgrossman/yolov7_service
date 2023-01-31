@@ -8,8 +8,6 @@ import torch
 import torch.backends.cudnn as cudnn
 from numpy import random
 import sys
-sys.path.insert(0, 'yolov7')
-# from yolov7 import *
 
 from models.experimental import attempt_load
 from utils.datasets import letterbox
@@ -39,14 +37,14 @@ def init_detector():
     save_dir = Path(increment_path(Path(opt.project) / opt.name, exist_ok=opt.exist_ok))  # increment run
     (save_dir / 'labels' if save_txt else save_dir).mkdir(parents=True, exist_ok=True)  # make dir
     # Initialize
-    set_logging(output_dir=save_dir.as_posix())
+    set_logging() #output_dir=save_dir.as_posix())
     device = select_device(opt.device)
-    half = False #device.type != 'cpu'  # half precision only supported on CUDA
+    half = device.type != 'cpu'  # half precision only supported on CUDA
     # Load model
     model = attempt_load(weights, map_location=device)  # load FP32 model
     stride = int(model.stride.max())  # model stride
-    if trace:
-        model = TracedModel(model, device, imgsz)
+    # if trace:
+    #     model = TracedModel(model, device, imgsz)
     if half:
         model.half()  # to FP16
     imgsz = check_img_size(imgsz, s=stride)  # check img_size
