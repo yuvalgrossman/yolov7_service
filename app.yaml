@@ -1,0 +1,2 @@
+runtime: python39
+entrypoint: python main.py --weights /home/yuval/Projects/Weights/detection/yolov7.pt
